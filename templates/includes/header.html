@@ -1,0 +1,92 @@
+{% load static %}
+
+<style>
+    .search-adjust {
+        margin-left: -100px !important; /* Adjust this value to move the search box left */
+    }
+
+    .navbar {
+        background-color: white !important; /* Set background color to white */
+    }
+</style>
+
+<header class="section-header">
+    <section class="header-main border-bottom">
+        <nav class="navbar navbar-expand-md navbar-light bg-light border-top">
+            <div class="container">
+                <a class="navbar-brand" href="{% url 'home' %}">
+                    <img src="{% static 'images/logo.png' %}" alt="Logo" style="height: 40px;">
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse mr-2 sm-auto" id="navbarNav">
+                    <form action="{% url 'search' %}" class="form-inline ml-auto">
+                        <input class="form-control mr-2" type="search" placeholder="Search" aria-label="Search" name="keyword">
+                        <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </form>
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <div class="category-wrap dropdown d-inline-block float-right">
+                                <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-bars"></i> All category
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="{% url 'store' %}">All Products</a>
+                                    <hr />
+                                    {% for category in categories %}
+                                        <a class="dropdown-item" href="{{ category.get_url }}">{{ category.category_name }}</a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </li>
+                        &nbsp;&nbsp;
+                        <li class="nav-item">
+            
+                            <a href="{% url 'store' %}" class="btn btn-outline-dark">Store</a>
+                
+                        </li>
+                        &nbsp;
+                        
+                        {% if user.id is None %}
+                        <li class="nav-item">
+                            <div class="widget-header">
+                                <small class="title text-muted">Welcome guest!</small>
+                                <div>
+                                    <a href="{% url 'login' %}">Sign in</a> <span class="dark-transp"> | </span>
+                                    <a href="{% url 'register' %}"> Register</a>
+                                </div>
+                            </div>
+                        </li>
+                        &nbsp;
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                        </li>
+                        {% endif %}
+                        &nbsp;
+                        <li class="nav-item">
+                            <a href="{% url 'cart' %}" class="widget-header pl-3 ml-1">
+                                <div class="icon icon-sm rounded-circle border"><i class="fa fa-shopping-cart"></i></div>
+                                <span class="badge badge-pill badge-danger notify">{{ cart_count }}</span>
+                            </a>
+                        </li>
+                        &nbsp;
+                        <li class="nav-item">
+                            <a href="{% url 'wishlist' %}" class="widget-header pl-3 ml-0" style="margin-left: 0;">
+                                <div class="icon icon-sm rounded-circle border"><i class="fa fa-heart"></i></div>
+                                <span class="badge badge-pill badge-danger notify">{{ wishlist_count }}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </section>
+    
+</header>
